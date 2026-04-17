@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Demo page</title>
+
+  <style>
+    /* Mini player container fixed bottom-right */
+    #bc-mini-player {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 320px;           /* adjust width */
+      height: 180px;          /* adjust height (16:9 example) */
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+      z-index: 9999;
+      background: #000;
+      display: flex;
+      align-items: stretch;
+      justify-content: stretch;
+    }
+
+    /* Make the injected player fill the container */
+    #bc-mini-player [data-experience],
+    #bc-mini-player iframe {
+      width: 100%;
+      height: 100%;
+      display: block;
+      border: none;
+    }
+
+    /* Close button */
+    #bc-mini-player .bc-close {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      width: 28px;
+      height: 28px;
+      background: rgba(0,0,0,0.6);
+      color: #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      line-height: 1;
+      cursor: pointer;
+      z-index: 10000;
+      border: 0;
+    }
+
+    /* Hide on small screens to avoid covering content */
+    @media (max-width: 480px) {
+      #bc-mini-player { display: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <h1>Demo page</h1>
+  <p>This is a demo page for testing purposes.</p>
+
+  <h2>Carousel options</h2>
+  <h3>Option 1:</h3>
+  <iframe style="height:500px;width:960px;display:flex;border:none;margin-left:auto;margin-right:auto;" src="https://players.brightcove.net/6416054248001/experience_69d736a8956b1f447baab56a/index.html" allow="autoplay; fullscreen; geolocation; encrypted-media" allowfullscreen webkitallowfullscreen mozallowfullscreen></iframe>
+
+  <h3>Option 2:</h3>
+  <iframe style="height:500px;width:960px;display:block;border:none;margin-left:auto;margin-right:auto;" src="https://players.brightcove.net/6416054248001/experience_69d7a57eca3c2e7de9a98e7b/index.html" allow="autoplay; fullscreen; geolocation; encrypted-media" allowfullscreen webkitallowfullscreen mozallowfullscreen></iframe>
+
+  <h3>Option 3:</h3>
+  <iframe style="height:500px;width:960px;display:block;border:none;margin-left:auto;margin-right:auto;" src="https://players.brightcove.net/6416054248001/experience_69d7a944ca3c2e7de9a98edb/index.html" allow="autoplay; fullscreen; geolocation; encrypted-media" allowfullscreen webkitallowfullscreen mozallowfullscreen></iframe>
+
+  <h3>Option 4</h3>
+
+  <!-- Mini player container bottom-right -->
+  <div id="bc-mini-player" role="region" aria-label="Mini video player">
+    <button class="bc-close" aria-label="Close mini player" title="Close">✕</button>
+    <div data-experience="69d736a8956b1f447baab56a" aria-hidden="false"></div>
+  </div>
+
+  <!-- Brightcove script for Option 4 -->
+  <script src="https://players.brightcove.net/6416054248001/experience_69d736a8956b1f447baab56a/live.js"></script>
+
+  <script>
+    // Close button behavior and session persistence
+    (function () {
+      var mini = document.getElementById('bc-mini-player');
+      var closeBtn = mini.querySelector('.bc-close');
+
+      // If user closed earlier in this session, keep it hidden
+      if (sessionStorage.getItem('bcMiniHidden') === '1') {
+        mini.style.display = 'none';
+      }
+
+      closeBtn.addEventListener('click', function () {
+        mini.style.display = 'none';
+        sessionStorage.setItem('bcMiniHidden', '1');
+      });
+    })();
+  </script>
+</body>
+</html>
